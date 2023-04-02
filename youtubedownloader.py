@@ -118,7 +118,7 @@ class YouTubeDownloader:
         # Loop through the links and start downloading the videos
         for link in self.links:
             try:
-                yt = YouTube(link)
+                yt = YouTube(link, on_progress_callback=self.update_progress_bar)
                 stream = yt.streams.get_highest_resolution()
                 if self.filename_var.get():
                     video_title = stream.title.replace('\\', '').replace('/', '').replace(':', '').replace(

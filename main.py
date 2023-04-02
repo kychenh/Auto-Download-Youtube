@@ -73,8 +73,15 @@ folder = "D:/tmp"
 import sys
 
 def download_video(url):
+    # Show download progress
+    def show_progress_bar(stream, chunk, bytes_remaining):
+        remaining = round(100 * bytes_remaining / filesize)
+        completed = 100 - remaining
+        progress_bar = "#" * completed + "-" * remaining
+        sys.stdout.write(f"\r{progress_bar} {completed}%")
+        sys.stdout.flush()
     try:
-        yt = YouTube(url)
+        yt = YouTube(url, on_progress_callback=show_progress_bar)
     except:
         print("Invalid URL, please try again!")
         sys.exit(1)
@@ -84,15 +91,9 @@ def download_video(url):
     filesize = stream.filesize
     print(f"Filesize: {filesize / (1024*1024):.2f} MB")
 
-    # Show download progress
-    def show_progress_bar(stream, chunk, file_handle, bytes_remaining):
-        remaining = round(100 * bytes_remaining / filesize)
-        completed = 100 - remaining
-        progress_bar = "#" * completed + "-" * remaining
-        sys.stdout.write(f"\r{progress_bar} {completed}%")
-        sys.stdout.flush()
+    
 
-    stream.download(output_path="./downloads", filename=yt.title, on_progress_callback=show_progress_bar)
+    stream.download(output_path="", filename="downloaded.mp4")#yt.title)
     print(f"\n{yt.title} has been downloaded to ./downloads!")
 
 
@@ -115,5 +116,6 @@ def download_srt(video_url, output_path):
 
 if __name__ == "__main__":
     # url = input("Please enter a YouTube URL: ")
-    url = "https://www.youtube.com/watch?v=yvaR4MW5u4k"
-    download_srt(url, folder)
+    url = "https://www.youtube.com/watch?v=n4ZuUiPBoTU"
+    # download_srt(url, folder)
+    download_video(url=url)
