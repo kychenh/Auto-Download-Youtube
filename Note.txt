@@ -1,0 +1,5 @@
+# fill list in linklist.txt and load file by using command below : 
+pipenv run python ytubeApp.py 
+OR
+# if you download only one link. use this command. 
+pipenv run python main.py 
